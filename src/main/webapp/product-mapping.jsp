@@ -142,14 +142,14 @@
 								<div class="form-group">
 									<label class="col-sm-2 control-label">Code</label>
 									<div class="col-sm-10">
-										<input id="code" type="text" name="code" class="form-control"
+										<input disabled id="code" type="text" name="code" class="form-control"
 											placeholder="Code" required>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-sm-2 control-label">Product</label>
 									<div class="col-sm-10">
-										<select id="product" class="form-control" required
+										<select disabled id="product" class="form-control" required
 											name="product-id">
 											<option class="product-id" value="">--Select
 												Product--</option>
