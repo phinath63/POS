@@ -1,7 +1,77 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
 
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
+
+	<!-- This is a context init parameter getServletContext().getInitParameter -->
+	<context-param>
+		<param-name>email</param-name>
+		<param-value>admin@example.com</param-value>
+	</context-param>
+
+	<context-param>
+		<description>Location to store uploaded file</description>
+		<param-name>file-upload</param-name>
+		<param-value>/opt/tomcat/apache-tomcat-7.0.65/uploads/</param-value>
+	</context-param>
+	<display-name>Archetype Created Web Application</display-name>
+
+
+	<servlet>
+		<servlet-name>Login</servlet-name>
+		<servlet-class>com.rupp.evening.pos.Login</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Login</servlet-name>
+		<url-pattern>login</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>Home</servlet-name>
+		<servlet-class>com.rupp.evening.pos.HomeController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Home</servlet-name>
+		<url-pattern>home</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>Product</servlet-name>
+		<servlet-class>com.rupp.evening.pos.ProductController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Product</servlet-name>
+		<url-pattern>product</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>Scale</servlet-name>
+		<servlet-class>com.rupp.evening.pos.ScaleController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Scale</servlet-name>
+		<url-pattern>scale</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>ProductMapping</servlet-name>
+		<servlet-class>com.rupp.evening.pos.ProductMappingController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ProductMapping</servlet-name>
+		<url-pattern>product-mapping</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>Sale</servlet-name>
+		<servlet-class>com.rupp.evening.pos.SaleController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Sale</servlet-name>
+		<url-pattern>sale</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>Report</servlet-name>
+		<servlet-class>com.rupp.evening.pos.ReportController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Report</servlet-name>
+		<url-pattern>report</url-pattern>
+	</servlet-mapping>
 </web-app>
