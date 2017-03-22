@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Product | List</title>
+<title>Sale Report</title>
 
 <link rel="stylesheet" href="/css/vendor.css" />
 <link rel="stylesheet" href="/css/app.css" />
@@ -26,8 +26,8 @@
 			<div class="sidebar-collapse">
 				<ul class="nav metismenu" id="side-menu">
 
-					<li><a href="sale?type=sale"><i
-							class="fa fa-buysellads"></i> <span class="nav-label">Sale</span></a></li>
+					<li><a href="sale?type=sale"><i class="fa fa-buysellads"></i>
+							<span class="nav-label">Sale</span></a></li>
 					<li><a><i class="fa fa-wrench"></i> <span
 							class="nav-label">Settings</span> <span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level">
@@ -36,8 +36,8 @@
 							<li><a href="product-mapping?type=getAll">Product
 									Mapping</a></li>
 						</ul></li>
-					<li class="active"><a href="report"><i class="fa fa-file-excel-o"></i> <span
-							class="nav-label">Report</span></a></li>
+					<li class="active"><a href="report"><i
+							class="fa fa-file-excel-o"></i> <span class="nav-label">Report</span></a></li>
 				</ul>
 
 			</div>
@@ -65,10 +65,78 @@
 								<h5>Report</h5>
 							</div>
 							<div class="ibox-content">
-
-
+								<form id="form" action="report-process" method="POST"
+									class="form-horizontal">
+									<fieldset>
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="col-sm-5">Transaction From</label>
+													<div class="col-sm-7">
+														<input type="text" name="trn-from"
+															class="form-control datepicker">
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="col-sm-5">Transaction Till</label>
+													<div class="col-sm-7">
+														<input type="text" name="trn-till"
+															class="form-control datepicker">
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="col-sm-5">Product</label>
+													<div class="col-sm-7">
+														<select class="form-control" name="product-id">
+															<option value="">--All Products--</option>
+															<c:forEach var="product" items="${products}">
+																<option value="${product.getProductID()}">${product.getProductName()}</option>
+															</c:forEach>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="col-sm-5">Scale</label>
+													<div class="col-sm-7">
+														<select class="form-control" name="scale-id">
+															<option value="">--All Scales--</option>
+															<c:forEach var="scale" items="${scales}">
+																<option value="${scale.getscaleID()}">${scale.getScaleType()}</option>
+															</c:forEach>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="col-sm-5">User</label>
+													<div class="col-sm-7">
+														<select class="form-control" name="user-id">
+															<option value="">--All Users--</option>
+															<c:forEach var="user" items="${users}">
+																<option value="${user.getUserID()}">${user.getUserName()}</option>
+															</c:forEach>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+									</fieldset>
+									<button class="btn btn-primary" onclick="search()"><i class="fa fa-fw fa-search-minus"></i>Search</button>
+								</form>
 							</div>
 						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<div id="result" class="ibox float-e-margins"></div>
 					</div>
 				</div>
 			</div>
@@ -89,34 +157,57 @@
 	<script src="/js/plugins/jquery-form.js"></script>
 
 	<script>
-
 	
-	
-$(document).ready(function(){
-    $('.dataTables').DataTable({
-        pageLength: 10,
-        responsive: true,
-        dom: '<"html5buttons"B>lTfgitp',
-        buttons: [
-            {extend: 'excel', title: 'Product List'},
-            {extend: 'pdf', title: 'Product List'},
-            {extend: 'print',
-                customize: function (win) {
-                    consol.log('')
-                    $(win.document.body).addClass('white-bg');
-                    $(win.document.body).css('font-size', '10px');
+		var loadDataTable = function(){
+		    $('.dataTables').DataTable({
+		        pageLength: 10,
+		        responsive: true,
+		        dom: '<"html5buttons"B>lTfgitp',
+		        buttons: [
+		            {extend: 'excel', title: 'Sale Report'},
+		            {extend: 'pdf', title: 'Sale Report'},
+		            {extend: 'print',
+		                customize: function (win) {
+		                    consol.log('')
+		                    $(win.document.body).addClass('white-bg');
+		                    $(win.document.body).css('font-size', '10px');
 
-                    $(win.document.body).find('table')
-                            .addClass('compact')
-                            .css('font-size', 'inherit');
-                }
-            }
-        ]
+		                    $(win.document.body).find('table')
+		                            .addClass('compact')
+		                            .css('font-size', 'inherit');
+		                }
+		            }
+		        ]
 
-    });
-});
+		    });
+			
+		}
+		var loadDatePicker = function() {
+			$('.datepicker').datepicker({
+				todayBtn : "linked",
+				format: 'yyyy-mm-dd',
+				keyboardNavigation : false,
+				forceParse : false,
+				calendarWeeks : true,
+				autoclose : true
+			});
+		};
+		$(document).ready(function() {
+			loadDatePicker();
+		});
 
-</script>
+		var search = function() {
+			$("#form").ajaxForm({
+				success : function(data) {
+					$("#result").html(data);
+					loadDataTable();
+				},
+				error : function() {
+					alert("Fail to update");
+				}
+			});
+		}
+	</script>
 </body>
 
 </html>

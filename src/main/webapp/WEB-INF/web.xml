@@ -74,4 +74,12 @@
 		<servlet-name>Report</servlet-name>
 		<url-pattern>report</url-pattern>
 	</servlet-mapping>
+		<servlet>
+		<servlet-name>ReportResult</servlet-name>
+		<servlet-class>com.rupp.evening.pos.ReportResult</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReportResult</servlet-name>
+		<url-pattern>report-process</url-pattern>
+	</servlet-mapping>
 </web-app>
